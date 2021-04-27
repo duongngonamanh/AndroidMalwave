@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.ml.AMDDrebinModel;
 import com.example.myapplication.ml.AutoModel1cnnPerApiDrebinBenign7;
 
 import org.tensorflow.lite.DataType;
@@ -118,17 +119,17 @@ public class MainActivity extends AppCompatActivity {
                         ApkFile apk = new ApkFile(FilePath);
                         try {
                             int[] dcm = Analyzer.decode2(apk);
-                            ByteBuffer input = ByteBuffer.allocateDirect(1*43*43*1 * 4);//Input Length * Size of data (int)
+                            ByteBuffer input = ByteBuffer.allocateDirect(1*44*44*1 * 4);//Input Length * Size of data (int)
                             IntBuffer x = input.asIntBuffer();
                             x.put(dcm);
                             try {
-                                AutoModel1cnnPerApiDrebinBenign7 model = AutoModel1cnnPerApiDrebinBenign7.newInstance(getApplicationContext());
+                                AMDDrebinModel model = AMDDrebinModel.newInstance(getApplicationContext());
 
                                 // Creates inputs for reference.
-                                TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 43, 43, 1}, DataType.FLOAT32);
+                                TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 44, 44, 1}, DataType.FLOAT32);
                                 inputFeature0.loadBuffer(input);
                                 // Runs model inference and gets result.
-                                AutoModel1cnnPerApiDrebinBenign7.Outputs outputs = model.process(inputFeature0);
+                                AMDDrebinModel.Outputs outputs = model.process(inputFeature0);
                                 TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
                                 int code = Analyzer.getCode(outputFeature0.getFloatArray());
                                 System.out.println("=============");
