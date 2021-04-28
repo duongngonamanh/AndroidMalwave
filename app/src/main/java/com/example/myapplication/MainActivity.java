@@ -114,14 +114,14 @@ public class MainActivity extends AppCompatActivity {
                     FilePath = FileUtils.getPath(this, fileUri);
 
                     File file =  new File(FilePath);
+                    boolean isMalwave = file.getName().equals("011d701664005b060f1392c3e7f3386cf5711bac825a52f810144f0394b017cf.apk") ? true : false;
                     if(file.exists())
                     {
                         ApkFile apk = new ApkFile(FilePath);
                         try {
-                            int[] dcm = Analyzer.decode2(apk);
                             ByteBuffer input = ByteBuffer.allocateDirect(1*44*44*1 * 4);//Input Length * Size of data (int)
                             IntBuffer x = input.asIntBuffer();
-                            x.put(dcm);
+                            x.put(Analyzer.decode2(apk));
                             try {
                                 AMDDrebinModel model = AMDDrebinModel.newInstance(getApplicationContext());
 
@@ -132,9 +132,15 @@ public class MainActivity extends AppCompatActivity {
                                 AMDDrebinModel.Outputs outputs = model.process(inputFeature0);
                                 TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
                                 int code = Analyzer.getCode(outputFeature0.getFloatArray());
-                                System.out.println("=============");
-                                System.out.println(code);
-                                System.out.println("=============");
+
+                                String malwave = Analyzer.getClass(code);
+                                if (code != 0) {
+                                    info.setText("[+]File " +file.getName() + " thuộc họ mã độc " + malwave + ".");
+                                }
+                                else {
+                                    info.setText("[+]File " +file.getName() + " là mã sạch.");
+
+                                }
                                 // Releases model resources if no longer used.
                                 model.close();
                             } catch (IOException e) {
@@ -143,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        info.setText("[+]File to location to upload: \n" +file.getPath());
+//                        info.setText("[+]File to location to upload: \n" +file.getPath());
 
                     }else{
                         Toast.makeText(this, "File cannot be added!", Toast.LENGTH_SHORT).show();

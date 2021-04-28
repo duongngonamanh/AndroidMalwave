@@ -64,6 +64,7 @@ public class Analyzer {
     }
 
     public static String getClass(int code) {
-        return "";
+        String[] c = new String[]{ "Airpush", "AndroRAT", "Andup", "Aples", "BankBot", "Boqx", "Boxer", "Cova", "Dowgin", "DroidKungFu", "Erop", "FakeAV", "FakeAngry", "FakeDoc", "FakeInst", "FakePlayer", "FakeTimer", "Finspy", "Fjcon", "Fobus", "Fusob", "GingerMaster", "GoldDream", "Gumen", "Jisut", "Koler", "Ksapp", "Kuguo", "Kyview", "Lnk", "Lotoor", "Mecor", "Minimob", "Mmarketpay", "MobileTX", "Mseg", "Mtk", "Nandrobox", "Obad", "Ogel", "Opfake", "Penetho", "Ramnit", "Roop", "SimpleLocker", "SlemBunk", "SmsKey", "SmsZombie", "Spambot", "SpyBubble", "Stealer", "Steek", "Svpeng", "Tesbo", "Triada", "Univert", "UpdtKiller", "Utchi", "Vidro", "VikingHorde", "Vmvol", "Winge", "Youmi", "Zitmo", "Ztorg" };
+        return c[code];
     }
 }
